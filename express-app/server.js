@@ -10,7 +10,6 @@ const tasks=[];
 const repodata=[];
 
 app.get("/moviedata/",(request, response)=>{
-    console.log(request.query.id);
     axios.get(`http://www.omdbapi.com/?t=${request.query.id}&apikey=1075f858&`)
          .then(movieApiResponse => {
                 const resultdata = movieApiResponse.data;
@@ -19,14 +18,12 @@ app.get("/moviedata/",(request, response)=>{
                                         Year:"",
                                         Plot:"" 
                                     }
-                                    console.log(movieApiResponse.data.Response);
                     moviedetails.Title=movieApiResponse.data.Title;
                     moviedetails.Year=movieApiResponse.data.Year;
                     moviedetails.Plot=movieApiResponse.data.Plot;
 
                     axios.post(`http://5c99215a423656001439321e.mockapi.io/api/v1/moviedata`,{moviedetails})
                         .then(mockApiResponse => {
-                            console.log("posted to mockapi",mockApiResponse);
                             return response.json({ status: true,moviedetails:moviedetails })
                         })
                         .catch(error => {
